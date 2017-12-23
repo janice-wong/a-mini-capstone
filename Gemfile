@@ -15,6 +15,7 @@ gem 'puma', '~> 3.7'
 gem 'faker'
 gem 'unirest'
 gem 'awesome_print'
+gem 'knock'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
