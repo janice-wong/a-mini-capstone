@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post '/users' => 'users#create'
+
   get '/products' => 'products#index'
   get '/products/:id' => 'products#show'
   post '/products' => 'products#create'
