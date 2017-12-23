@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   def index
-    price = :price if params[:price_sort].downcase == "y"
+    price = :price if params[:price_sort] == "y"
     products = Product.all.where("name LIKE ?", "%#{params[:keyword]}%").order(price)
 
     render json: products.as_json

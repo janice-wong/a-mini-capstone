@@ -16,8 +16,7 @@ class Product < ApplicationRecord
       is_discounted: is_discounted,
       tax: tax,
       total: total,
-      image: image,
-      supplier: supplier
+      supplier: supplier.as_json
     }
   end
 
