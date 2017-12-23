@@ -7,6 +7,8 @@ while true
   p "1 - Show all products"
   p "2 - Show a specific product"
   p "3 - Create a product"
+  p "4 - Update a product"
+  p "5 - Delete a product"
   p "Type 'exit' to exit"
   p '-' * 100
   user_input = gets.chomp
@@ -28,6 +30,26 @@ while true
     p "Image:"
     product_input[:image] = gets.chomp
     pp Unirest.post("localhost:3000/products", parameters: product_input).body
+  elsif user_input == "4"
+    p "Provide the ID of the product you want to update:"
+    product_id = gets.chomp.to_i
+    if Unirest.get("localhost:3000/product_ids").body["ids"].include? product_id
+      product = Unirest.get("localhost:3000/products/#{product_id}").body
+      product_update = {}
+      product.each do |key, value|
+        next if ['id', 'created_at', 'updated_at'].include? key
+        p "#{key.capitalize} is currently #{value}. If you want to update it, provide the updated value. Otherwise, press [Enter]."
+        input = gets.chomp
+        product_update["#{key}"] = input if input != ""
+      end
+      pp Unirest.patch("localhost:3000/products/#{product_id}", parameters: product_update).body
+    else
+      p "No product with ID #{product_id} found."
+    end
+  elsif user_input == "5"
+    p "Provide the ID of the product you want to delete:"
+    product_id = gets.chomp.to_i
+    pp Unirest.delete("localhost:3000/products/#{product_id}").body
   elsif user_input == "exit"
     break
   end
