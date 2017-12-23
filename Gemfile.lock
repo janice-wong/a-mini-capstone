@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (8.0.0)
+    awesome_print (1.8.0)
     builder (3.2.3)
     byebug (9.1.0)
     concurrent-ruby (1.0.5)
@@ -133,6 +134,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   byebug
   faker
   listen (>= 3.0.5, < 3.2)

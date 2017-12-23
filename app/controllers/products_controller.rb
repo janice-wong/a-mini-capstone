@@ -1,14 +1,7 @@
 class ProductsController < ApplicationController
   def index
-    products = []
-    Product.all.each do |product|
-      products << {
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        image: product.image
-      }
-    end
+    price = :price if params[:price_sort].downcase == "y"
+    products = Product.all.where("name LIKE ?", "%#{params[:keyword]}%").order(price)
 
     render json: products.as_json
   end

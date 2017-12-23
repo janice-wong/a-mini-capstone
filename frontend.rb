@@ -4,7 +4,7 @@ require 'unirest'
 while true
   p '-' * 100
   p "Pick an option"
-  p "1 - Show all products"
+  p "1 - Search products by name"
   p "2 - Show a specific product"
   p "3 - Create a product"
   p "4 - Update a product"
@@ -14,7 +14,11 @@ while true
   user_input = gets.chomp
 
   if user_input == "1"
-    pp Unirest.get("localhost:3000/products").body
+    p "Enter a keyword:"
+    keyword_input = gets.chomp
+    p "Sort by price? (y/n)"
+    price_sort_input = gets.chomp
+    pp Unirest.get("localhost:3000/products", parameters: { keyword: keyword_input, price_sort: price_sort_input }).body
   elsif user_input == "2"
     p "Provide the ID of the product you want to show:"
     product_id = gets.chomp.to_i
