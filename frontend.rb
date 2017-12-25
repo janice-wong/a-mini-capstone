@@ -9,6 +9,9 @@ while true
   p "3 - Create a product"
   p "4 - Update a product"
   p "5 - Delete a product"
+  p "6 - Sign up"
+  p "7 - Log in"
+  p "8 - Log out"
   p "Type 'exit' to exit"
   p '-' * 100
   user_input = gets.chomp
@@ -54,6 +57,48 @@ while true
     p "Provide the ID of the product you want to delete:"
     product_id = gets.chomp.to_i
     pp Unirest.delete("localhost:3000/products/#{product_id}").body
+  elsif user_input == "6"
+    create_user = {}
+    p "Enter your name:"
+    create_user[:name] = gets.chomp
+    p "Enter your email:"
+    create_user[:email] = gets.chomp
+    p "Enter your password:"
+    create_user[:password] = gets.chomp
+    p "Confirm your password:"
+    create_user[:password_confirmation] = gets.chomp
+
+    pp Unirest.post("localhost:3000/users", parameters: create_user).body
+  elsif user_input == "7"
+    p "Enter your email:"
+    email_input = gets.chomp
+    p "Enter your password:"
+    password_input = gets.chomp
+
+    log_in = Unirest.post(
+      "localhost:3000/user_token",
+      parameters: {
+        auth: {
+          email: email_input,
+          password: password_input
+        }
+      }
+    )
+
+    # Save JSON web token from response
+    jwt = log_in.body["jwt"]
+    if jwt
+      p "Login successful - your JSON web token is #{jwt}."
+    else
+      p "Login unsuccessful"
+    end
+
+    # Include jwt in headers of future web requests
+    Unirest.default_header("Authorization", "Bearer #{jwt}")
+  elsif user_input == "8"
+    jwt = ""
+    Unirest.clear_default_headers
+    p "Logged out"
   elsif user_input == "exit"
     break
   end
